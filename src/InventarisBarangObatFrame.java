@@ -1,3 +1,27 @@
+
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+
+
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -14,8 +38,17 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
      */
     public InventarisBarangObatFrame() {
         initComponents();
+        refreshTable();
+        setLayoutForm();
     }
-
+    
+    private void setLayoutForm(){
+        if (comboKategori.getSelectedIndex() == 0 || "Pilih".equals(comboJenis.getSelectedItem())) {
+            comboKategori.setForeground(new Color(153,153,153)); 
+            comboJenis.setForeground(new Color(153,153,153));
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,21 +58,463 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtKode = new javax.swing.JTextField();
+        txtNama = new javax.swing.JTextField();
+        comboKategori = new javax.swing.JComboBox<>();
+        comboJenis = new javax.swing.JComboBox<>();
+        txtMerek = new javax.swing.JTextField();
+        txtHargaBeli = new javax.swing.JTextField();
+        txtHargaJual = new javax.swing.JTextField();
+        txtJumlah = new javax.swing.JTextField();
+        txtTanggalMasuk = new com.toedter.calendar.JDateChooser();
+        jLabel12 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableObat = new javax.swing.JTable();
+        txtExpired = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATA OBAT", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+
+        jLabel2.setText("Kode Obat");
+
+        jLabel3.setText("Nama Obat");
+
+        jLabel4.setText("Kategori Obat");
+
+        jLabel5.setText("Jenis Obat");
+
+        jLabel6.setText("Merek");
+
+        jLabel7.setText("Harga Beli");
+
+        jLabel8.setText("Harga Jual");
+
+        jLabel9.setText("Jumlah ");
+
+        jLabel10.setText("Tanggal Masuk");
+
+        comboKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Tablet", "Sirup", "Antibiotik", "Obat Bebas" }));
+
+        comboJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Antibiotik", "Analgesik" }));
+
+        jLabel12.setText("Cari Obat");
+
+        jButton1.setText("Ubah");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Tambah");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Hapus");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel13.setText("Log History");
+
+        tableObat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode Obat", "Nama Obat", "Kategori Obat", "Jenis Obat", "Merek", "Harga Beli", "Harga Jual", "Jumlah", "Tanggal Masuk", "Expired"
+            }
+        ));
+        tableObat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableObatMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tableObat);
+
+        jLabel11.setText("Expired");
+
+        jButton4.setText("Cari");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Impor");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Ekspor");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(54, 54, 54)
+                                    .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel5)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3))
+                                    .addGap(37, 37, 37)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(comboKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(comboJenis, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtMerek, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtTanggalMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel7)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(54, 54, 54)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 958, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(comboKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(comboJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addGap(40, 40, 40))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtMerek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addGap(34, 34, 34))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(txtTanggalMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        deleteMedicine();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        searchMedicine();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Open CSV File");
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Lokasi default
+        int userSelection = fileChooser.showOpenDialog(null); // Ganti 'null' jika ada JFrame/JPanel sebagai induk
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToOpen = fileChooser.getSelectedFile();
+            try (BufferedReader br = new BufferedReader(new FileReader(fileToOpen))) {
+                String line;
+                DefaultTableModel model = (DefaultTableModel) tableObat.getModel();
+
+                // Hapus semua data sebelumnya
+                model.setRowCount(0);
+
+                boolean isHeader = true; // Gunakan ini jika ingin melewati header
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(","); // Asumsi pemisah data adalah koma
+
+                    // Jika ingin melewati header CSV, gunakan flag
+                    if (isHeader) {
+                        isHeader = false; // Lewati header (baris pertama)
+                        continue; // Lanjutkan ke baris berikutnya
+                    }
+
+                    // Tambahkan data ke tabel
+                    model.addRow(data);
+                }
+                JOptionPane.showMessageDialog(null, "Data berhasil diimpor dari " + fileToOpen.getAbsolutePath(), "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat mengimpor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save as CSV");
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Lokasi default
+
+        // Tetapkan nama file default
+        fileChooser.setSelectedFile(new File("DATA OBAT.csv"));
+
+        int userSelection = fileChooser.showSaveDialog(this); // Ganti 'this' dengan JFrame/JPanel Anda
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Tambahkan ekstensi ".csv" jika tidak ada
+            if (!filePath.toLowerCase().endsWith(".csv")) {
+                filePath += ".csv";
+            }
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+                TableModel model = tableObat.getModel();
+
+                // Tulis header tabel
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    writer.print(model.getColumnName(i));
+                    if (i < model.getColumnCount() - 1) {
+                        writer.print(",");
+                    }
+                }
+                writer.println();
+
+                // Tulis baris data
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        writer.print(model.getValueAt(i, j));
+                        if (j < model.getColumnCount() - 1) {
+                            writer.print(",");
+                        }
+                    }
+                    writer.println();
+                }
+
+                writer.flush();
+                JOptionPane.showMessageDialog(this, "Data berhasil diekspor ke " + filePath, "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengekspor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    addMedicine();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        updateMedicine();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tableObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObatMouseClicked
+       int row = tableObat.getSelectedRow();
+
+// Pastikan ada baris yang dipilih
+if (row != -1) {
+    try {
+        txtKode.setText(tableObat.getValueAt(row, 0).toString());
+        txtNama.setText(tableObat.getValueAt(row, 1).toString());
+        comboKategori.setSelectedItem(tableObat.getValueAt(row, 2).toString());
+        comboJenis.setSelectedItem(tableObat.getValueAt(row, 3).toString());
+        txtMerek.setText(tableObat.getValueAt(row, 4).toString());
+        txtHargaBeli.setText(tableObat.getValueAt(row, 5).toString());
+        txtHargaJual.setText(tableObat.getValueAt(row, 6).toString());
+        txtJumlah.setText(tableObat.getValueAt(row, 7).toString());
+        
+        // Konversi nilai tabel ke tipe Date untuk txtTanggalMasuk
+        Object tanggalMasukObj = tableObat.getValueAt(row, 8);
+        if (tanggalMasukObj instanceof Date) {
+            txtTanggalMasuk.setDate((Date) tanggalMasukObj);
+        } else if (tanggalMasukObj instanceof String) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
+                Date tanggalMasuk = sdf.parse(tanggalMasukObj.toString());
+                txtTanggalMasuk.setDate(tanggalMasuk);
+            } catch (ParseException e) {
+                txtTanggalMasuk.setDate(null);
+                JOptionPane.showMessageDialog(null, "Format tanggal Masuk tidak valid: " + e.getMessage());
+            }
+        } else {
+            txtTanggalMasuk.setDate(null); // Set null jika tipe data tidak valid
+        }
+
+        // Konversi nilai tabel ke tipe Date untuk txtExpired (kolom ke-9)
+        Object expiredObj = tableObat.getValueAt(row, 9);
+        if (expiredObj instanceof Date) {
+            txtExpired.setDate((Date) expiredObj);
+        } else if (expiredObj instanceof String) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
+                Date expiredDate = sdf.parse(expiredObj.toString());
+                txtExpired.setDate(expiredDate);
+            } catch (ParseException e) {
+                txtExpired.setDate(null);
+                JOptionPane.showMessageDialog(null, "Format tanggal Expired tidak valid: " + e.getMessage());
+            }
+        } else {
+            txtExpired.setDate(null); // Set null jika tipe data tidak valid
+        }
+        
+    } catch (Exception e) {
+        // Log kesalahan atau tampilkan pesan
+        JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat memuat data: " + e.getMessage());
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Silakan pilih baris yang ingin dimuat.");
+}
+
+    }//GEN-LAST:event_tableObatMouseClicked
 
     /**
      * @param args the command line arguments
@@ -77,5 +552,249 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboJenis;
+    private javax.swing.JComboBox<String> comboKategori;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable tableObat;
+    private com.toedter.calendar.JDateChooser txtExpired;
+    private javax.swing.JTextField txtHargaBeli;
+    private javax.swing.JTextField txtHargaJual;
+    private javax.swing.JTextField txtJumlah;
+    private javax.swing.JTextField txtKode;
+    private javax.swing.JTextField txtMerek;
+    private javax.swing.JTextField txtNama;
+    private javax.swing.JTextField txtSearch;
+    private com.toedter.calendar.JDateChooser txtTanggalMasuk;
     // End of variables declaration//GEN-END:variables
+private void addMedicine() {
+        try {
+            // Mengambil input dari form
+            String kode = txtKode.getText();
+            String nama = txtNama.getText();
+            String kategori = (String) comboKategori.getSelectedItem();
+            String jenis = (String) comboJenis.getSelectedItem();
+            String merek = txtMerek.getText();
+
+            // Validasi dan parsing harga beli dan jual
+            double hargaBeli = 0;
+            double hargaJual = 0;
+            int jumlah = 0;
+
+            try {
+                hargaBeli = Double.parseDouble(txtHargaBeli.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Harga Beli harus berupa angka!");
+                return;
+            }
+
+            try {
+                hargaJual = Double.parseDouble(txtHargaJual.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Harga Jual harus berupa angka!");
+                return;
+            }
+
+            try {
+                jumlah = Integer.parseInt(txtJumlah.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Jumlah harus berupa angka!");
+                return;
+            }
+
+            // Mengambil dan memformat tanggal
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String tanggalMasuk = null;
+            String expired = null;
+
+            if (txtTanggalMasuk.getDate() != null) {
+                tanggalMasuk = dateFormat.format(txtTanggalMasuk.getDate()); // Mengonversi ke string
+            } else {
+                JOptionPane.showMessageDialog(null, "Tanggal Masuk tidak boleh kosong!");
+                return;
+            }
+
+            if (txtExpired.getDate() != null) {
+                expired = dateFormat.format(txtExpired.getDate()); // Mengonversi ke string
+            } else {
+                JOptionPane.showMessageDialog(null, "Tanggal Expired tidak boleh kosong!");
+                return;
+            }
+
+            // Menambahkan obat ke database
+            DatabaseHelper.addMedicine(kode, nama, kategori, jenis, merek, hargaBeli, hargaJual, jumlah, tanggalMasuk, expired);
+
+            // Refresh tabel dan tampilkan pesan
+            refreshTable();
+            JOptionPane.showMessageDialog(null, "Obat berhasil ditambahkan!");
+            
+            // Catat ke history
+            logHistory("Tambah", "Obat " + nama + " (Kode: " + kode + ") berhasil ditambahkan.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
+        }
+    }
+
+    // Memperbarui data obat ke database
+    private void updateMedicine() {
+        try {
+            // Mengambil input dari form
+            String kode = txtKode.getText();
+            String nama = txtNama.getText();
+            String kategori = (String) comboKategori.getSelectedItem();
+            String jenis = (String) comboJenis.getSelectedItem();
+            String merek = txtMerek.getText();
+
+            // Validasi dan parsing harga beli dan jual
+            double hargaBeli = 0;
+            double hargaJual = 0;
+            int jumlah = 0;
+
+            try {
+                hargaBeli = Double.parseDouble(txtHargaBeli.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Harga Beli harus berupa angka!");
+                return;
+            }
+
+            try {
+                hargaJual = Double.parseDouble(txtHargaJual.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Harga Jual harus berupa angka!");
+                return;
+            }
+
+            try {
+                jumlah = Integer.parseInt(txtJumlah.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Jumlah harus berupa angka!");
+                return;
+            }
+
+            // Mengambil dan memformat tanggal
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String tanggalMasuk = null;
+            String expired = null;
+
+            if (txtTanggalMasuk.getDate() != null) {
+                tanggalMasuk = dateFormat.format(txtTanggalMasuk.getDate());
+            } else {
+                JOptionPane.showMessageDialog(null, "Tanggal Masuk tidak boleh kosong!");
+                return;
+            }
+
+            if (txtExpired.getDate() != null) {
+                expired = dateFormat.format(txtExpired.getDate());
+            } else {
+                JOptionPane.showMessageDialog(null, "Tanggal Expired tidak boleh kosong!");
+                return;
+            }
+
+            // Memperbarui data obat ke database
+            DatabaseHelper.updateMedicine(kode, nama, kategori, jenis, merek, hargaBeli, hargaJual, jumlah, tanggalMasuk, expired);
+
+            // Refresh tabel dan tampilkan pesan
+            refreshTable();
+            JOptionPane.showMessageDialog(null, "Obat berhasil diperbarui!");
+            
+            // Catat ke history
+            logHistory("Ubah", "Obat " + nama + " (Kode: " + kode + ") berhasil diperbarui.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
+        }
+    }
+
+    // Menghapus obat dari database
+    private void deleteMedicine() {
+        try {
+            String kode = txtKode.getText();
+            DatabaseHelper.deleteMedicine(kode);
+            refreshTable();
+            JOptionPane.showMessageDialog(null, "Obat berhasil dihapus!");
+            // Catat ke history
+            logHistory("Hapus", "Obat dengan Kode: " + kode + " berhasil dihapus.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
+        }
+    }
+
+    // Mencari obat berdasarkan nama atau kode
+    private void searchMedicine() {
+        try {
+            String keyword = txtSearch.getText();
+            List<Medicine> medicines = DatabaseHelper.searchMedicine(keyword);
+            DefaultTableModel model = (DefaultTableModel) tableObat.getModel();
+            model.setRowCount(0);
+
+            for (Medicine medicine : medicines) {
+                model.addRow(new Object[]{
+                        medicine.getKode(),
+                        medicine.getNama(),
+                        medicine.getKategori(),
+                        medicine.getJenis(),
+                        medicine.getMerek(),
+                        medicine.getHargaBeli(),
+                        medicine.getHargaJual(),
+                        medicine.getJumlah(),
+                        medicine.getTanggalMasuk(),
+                        medicine.getExpired()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
+        }
+    }
+
+    // Refresh tabel dengan data terbaru dari database
+    private void refreshTable() {
+        try {
+            List<Medicine> medicines = DatabaseHelper.getAllMedicines();
+            DefaultTableModel model = (DefaultTableModel) tableObat.getModel();
+            model.setRowCount(0);
+
+            for (Medicine medicine : medicines) {
+                model.addRow(new Object[]{
+                        medicine.getKode(),
+                        medicine.getNama(),
+                        medicine.getKategori(),
+                        medicine.getJenis(),
+                        medicine.getMerek(),
+                        medicine.getHargaBeli(),
+                        medicine.getHargaJual(),
+                        medicine.getJumlah(),
+                        medicine.getTanggalMasuk(),
+                        medicine.getExpired()
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat memperbarui tabel: " + e.getMessage());
+        }
+    }
+ 
+  private void logHistory(String action, String detail) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String timestamp = dateFormat.format(new Date());
+    jTextArea1.append("[" + timestamp + "] " + action + ": " + detail + "\n");
+}  
+    
 }
