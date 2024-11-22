@@ -1,12 +1,16 @@
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
-import java.awt.Color;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -39,16 +43,39 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
     public InventarisBarangObatFrame() {
         initComponents();
         refreshTable();
-        setLayoutForm();
+        setFont();
     }
     
-    private void setLayoutForm(){
-        if (comboKategori.getSelectedIndex() == 0 || "Pilih".equals(comboJenis.getSelectedItem())) {
-            comboKategori.setForeground(new Color(153,153,153)); 
-            comboJenis.setForeground(new Color(153,153,153));
+    private void setFont(){
+        try {
+            Font fontCustom = Font.createFont(Font.TRUETYPE_FONT,new File("src/Font/Poppins-ExtraBold.ttf")).deriveFont(30f);
+            jLabel1.setFont(fontCustom);
+            Font Label = Font.createFont(Font.TRUETYPE_FONT,new File("src/Font/Poppins-SemiBold.ttf")).deriveFont(13f);
+            jLabel2.setFont(Label);
+            jLabel3.setFont(Label);
+            jLabel4.setFont(Label);
+            jLabel5.setFont(Label);
+            jLabel6.setFont(Label);
+            jLabel7.setFont(Label);
+            jLabel8.setFont(Label);
+            jLabel9.setFont(Label);
+            jLabel10.setFont(Label);
+            jLabel11.setFont(Label);
+            jLabel12.setFont(Label);
+            jLabel13.setFont(Label);
+            Font fontButton = Font.createFont(Font.TRUETYPE_FONT,new File("src/Font/Poppins-ExtraBold.ttf")).deriveFont(12f);
+            jButton1.setFont(fontButton);
+            jButton2.setFont(fontButton);
+            jButton3.setFont(fontButton);
+            jButton4.setFont(fontButton);
+            jButton5.setFont(fontButton);
+            jButton6.setFont(fontButton);
+            jButton7.setFont(fontButton);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,12 +119,15 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATA OBAT", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(127, 249, 174));
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Kode Obat");
 
         jLabel3.setText("Nama Obat");
@@ -116,9 +146,9 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
 
         jLabel10.setText("Tanggal Masuk");
 
-        comboKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Tablet", "Sirup", "Antibiotik", "Obat Bebas" }));
+        comboKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Analgesik dan Antipiretik", "Antibiotik", "Antihistamin", "Antiinflamasi Nonsteroid (AINS)", "Antidepresan", "Antihipertensi", "Antidiabetik", "Antiviral", "Antiulkus dan Antasida", "Antifungi (Antijamur)", "Obat Kardiovaskular", "Suplemen dan Vitamin", "Antiepilepsi", "Hormonal" }));
 
-        comboJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Antibiotik", "Analgesik" }));
+        comboJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Tablet", "Kapsul", "Sirup", "Inhaler", "Salep/Krim", "Gel", "Suppositoria", "Suntikan/Injeksi", "Plester Obat (Transdermal Patch)", "Tetes (Drops)", "Larutan Obat (Solution)", "Serbuk (Powder)", "Herbal" }));
 
         jLabel12.setText("Cari Obat");
 
@@ -187,94 +217,106 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("DATA OBAT");
+
+        jButton7.setText("Clear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addGap(54, 54, 54)
-                                    .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel5)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel3))
-                                    .addGap(37, 37, 37)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(comboKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(comboJenis, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtMerek, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE)))))
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtTanggalMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel11)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel7)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addGap(369, 369, 369)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel12)
+                .addGap(54, 54, 54)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(399, 399, 399))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(54, 54, 54)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(121, 121, 121))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMerek, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(comboKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtNama)
+                                        .addComponent(comboJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(434, 434, 434)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 958, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTanggalMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHargaBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(jLabel7)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 958, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(70, 70, 70)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
@@ -290,15 +332,10 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(comboJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel6)
-                                .addGap(40, 40, 40))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtMerek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtMerek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -309,10 +346,9 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtHargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8))
-                                .addGap(34, 34, 34))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel9))
+                            .addComponent(txtJumlah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
@@ -323,29 +359,32 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)))
+                            .addComponent(txtExpired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(106, 106, 106)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -362,19 +401,26 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Open CSV File");
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Lokasi default
-        int userSelection = fileChooser.showOpenDialog(null); // Ganti 'null' jika ada JFrame/JPanel sebagai induk
+         JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Open CSV File");
+    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Lokasi default
+    int userSelection = fileChooser.showOpenDialog(null); // Ganti 'null' jika ada JFrame/JPanel sebagai induk
 
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToOpen = fileChooser.getSelectedFile();
-            try (BufferedReader br = new BufferedReader(new FileReader(fileToOpen))) {
-                String line;
-                DefaultTableModel model = (DefaultTableModel) tableObat.getModel();
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File fileToOpen = fileChooser.getSelectedFile();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileToOpen))) {
+            String line;
+            DefaultTableModel model = (DefaultTableModel) tableObat.getModel();
 
-                // Hapus semua data sebelumnya
-                model.setRowCount(0);
+            // Hapus semua data sebelumnya dari tabel
+            model.setRowCount(0);
+
+            // Siapkan koneksi ke SQLite
+            String url = "jdbc:sqlite:E:\\NETBEANS PROJECT\\SendiPratama-2210010529-UTS\\obat.db"; // Ganti dengan path database SQLite Anda
+            try (Connection conn = DriverManager.getConnection(url)) {
+                String sql = "INSERT INTO data_obat (kode_obat, nama_obat, kategori_obat, jenis_obat, merek, harga_beli, harga_jual, jumlah, tanggal_masuk, expired) " +
+                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
 
                 boolean isHeader = true; // Gunakan ini jika ingin melewati header
                 while ((line = br.readLine()) != null) {
@@ -386,15 +432,40 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
                         continue; // Lanjutkan ke baris berikutnya
                     }
 
-                    // Tambahkan data ke tabel
+                    // Tambahkan data ke tabel GUI
                     model.addRow(data);
+
+                    // Tambahkan data ke database SQLite
+                    try {
+                        pstmt.setString(1, data[0]); // kode_obat
+                        pstmt.setString(2, data[1]); // nama_obat
+                        pstmt.setString(3, data[2]); // kategori_obat
+                        pstmt.setString(4, data[3]); // jenis_obat
+                        pstmt.setString(5, data[4]); // merek
+                        pstmt.setDouble(6, Double.parseDouble(data[5])); // harga_beli
+                        pstmt.setDouble(7, Double.parseDouble(data[6])); // harga_jual
+                        pstmt.setInt(8, Integer.parseInt(data[7])); // jumlah
+                        pstmt.setString(9, data[8]); // tanggal_masuk
+                        pstmt.setString(10, data[9]); // expired
+                        pstmt.addBatch(); // Simpan per batch untuk efisiensi
+                    } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Kesalahan format data pada baris: " + line, "Error", JOptionPane.ERROR_MESSAGE);
+                        continue; // Lewati baris ini jika format salah
+                    }
                 }
-                JOptionPane.showMessageDialog(null, "Data berhasil diimpor dari " + fileToOpen.getAbsolutePath(), "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat mengimpor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+                // Eksekusi batch update untuk database SQLite
+                pstmt.executeBatch();
+                JOptionPane.showMessageDialog(null, "Data berhasil diimpor dari " + fileToOpen.getAbsolutePath() + " ke database.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat menyimpan ke database SQLite: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat membaca file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
+    }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -458,92 +529,88 @@ public class InventarisBarangObatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tableObatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObatMouseClicked
-       int row = tableObat.getSelectedRow();
+        int row = tableObat.getSelectedRow();
 
-// Pastikan ada baris yang dipilih
-if (row != -1) {
-    try {
-        txtKode.setText(tableObat.getValueAt(row, 0).toString());
-        txtNama.setText(tableObat.getValueAt(row, 1).toString());
-        comboKategori.setSelectedItem(tableObat.getValueAt(row, 2).toString());
-        comboJenis.setSelectedItem(tableObat.getValueAt(row, 3).toString());
-        txtMerek.setText(tableObat.getValueAt(row, 4).toString());
-        txtHargaBeli.setText(tableObat.getValueAt(row, 5).toString());
-        txtHargaJual.setText(tableObat.getValueAt(row, 6).toString());
-        txtJumlah.setText(tableObat.getValueAt(row, 7).toString());
-        
-        // Konversi nilai tabel ke tipe Date untuk txtTanggalMasuk
-        Object tanggalMasukObj = tableObat.getValueAt(row, 8);
-        if (tanggalMasukObj instanceof Date) {
-            txtTanggalMasuk.setDate((Date) tanggalMasukObj);
-        } else if (tanggalMasukObj instanceof String) {
+        // Pastikan ada baris yang dipilih
+        if (row != -1) {
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
-                Date tanggalMasuk = sdf.parse(tanggalMasukObj.toString());
-                txtTanggalMasuk.setDate(tanggalMasuk);
-            } catch (ParseException e) {
-                txtTanggalMasuk.setDate(null);
-                JOptionPane.showMessageDialog(null, "Format tanggal Masuk tidak valid: " + e.getMessage());
+                txtKode.setText(tableObat.getValueAt(row, 0).toString());
+                txtNama.setText(tableObat.getValueAt(row, 1).toString());
+                comboKategori.setSelectedItem(tableObat.getValueAt(row, 2).toString());
+                comboJenis.setSelectedItem(tableObat.getValueAt(row, 3).toString());
+                txtMerek.setText(tableObat.getValueAt(row, 4).toString());
+                txtHargaBeli.setText(tableObat.getValueAt(row, 5).toString());
+                txtHargaJual.setText(tableObat.getValueAt(row, 6).toString());
+                txtJumlah.setText(tableObat.getValueAt(row, 7).toString());
+
+                // Konversi nilai tabel ke tipe Date untuk txtTanggalMasuk
+                Object tanggalMasukObj = tableObat.getValueAt(row, 8);
+                if (tanggalMasukObj instanceof Date) {
+                    txtTanggalMasuk.setDate((Date) tanggalMasukObj);
+                } else if (tanggalMasukObj instanceof String) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
+                        Date tanggalMasuk = sdf.parse(tanggalMasukObj.toString());
+                        txtTanggalMasuk.setDate(tanggalMasuk);
+                    } catch (ParseException e) {
+                        txtTanggalMasuk.setDate(null);
+                        JOptionPane.showMessageDialog(null, "Format tanggal Masuk tidak valid: " + e.getMessage());
+                    }
+                } else {
+                    txtTanggalMasuk.setDate(null); // Set null jika tipe data tidak valid
+                }
+
+                // Konversi nilai tabel ke tipe Date untuk txtExpired (kolom ke-9)
+                Object expiredObj = tableObat.getValueAt(row, 9);
+                if (expiredObj instanceof Date) {
+                    txtExpired.setDate((Date) expiredObj);
+                } else if (expiredObj instanceof String) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
+                        Date expiredDate = sdf.parse(expiredObj.toString());
+                        txtExpired.setDate(expiredDate);
+                    } catch (ParseException e) {
+                        txtExpired.setDate(null);
+                        JOptionPane.showMessageDialog(null, "Format tanggal Expired tidak valid: " + e.getMessage());
+                    }
+                } else {
+                    txtExpired.setDate(null); // Set null jika tipe data tidak valid
+                }
+
+            } catch (Exception e) {
+                // Log kesalahan atau tampilkan pesan
+                JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat memuat data: " + e.getMessage());
             }
         } else {
-            txtTanggalMasuk.setDate(null); // Set null jika tipe data tidak valid
+            JOptionPane.showMessageDialog(null, "Silakan pilih baris yang ingin dimuat.");
         }
-
-        // Konversi nilai tabel ke tipe Date untuk txtExpired (kolom ke-9)
-        Object expiredObj = tableObat.getValueAt(row, 9);
-        if (expiredObj instanceof Date) {
-            txtExpired.setDate((Date) expiredObj);
-        } else if (expiredObj instanceof String) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ubah format sesuai kebutuhan
-                Date expiredDate = sdf.parse(expiredObj.toString());
-                txtExpired.setDate(expiredDate);
-            } catch (ParseException e) {
-                txtExpired.setDate(null);
-                JOptionPane.showMessageDialog(null, "Format tanggal Expired tidak valid: " + e.getMessage());
-            }
-        } else {
-            txtExpired.setDate(null); // Set null jika tipe data tidak valid
-        }
-        
-    } catch (Exception e) {
-        // Log kesalahan atau tampilkan pesan
-        JOptionPane.showMessageDialog(null, "Terjadi kesalahan saat memuat data: " + e.getMessage());
-    }
-} else {
-    JOptionPane.showMessageDialog(null, "Silakan pilih baris yang ingin dimuat.");
-}
 
     }//GEN-LAST:event_tableObatMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // Membersihkan JTextField
+        txtKode.setText("");
+        txtNama.setText("");
+        txtMerek.setText("");
+        txtHargaBeli.setText("");
+        txtHargaJual.setText("");
+        txtJumlah.setText("");
+
+        // Membersihkan JComboBox
+        comboKategori.setSelectedIndex(-1);
+        comboJenis.setSelectedIndex(-1);
+
+        // Membersihkan JDateChooser
+        txtTanggalMasuk.setDate(null);
+        txtExpired.setDate(null);
+
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InventarisBarangObatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InventarisBarangObatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InventarisBarangObatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InventarisBarangObatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        FlatMacLightLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new InventarisBarangObatFrame().setVisible(true);
@@ -560,6 +627,8 @@ if (row != -1) {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -738,7 +807,7 @@ private void addMedicine() {
         }
     }
 
-    // Mencari obat berdasarkan nama atau kode
+    // Mencari obat berdasarkan kode atau merek obat
     private void searchMedicine() {
         try {
             String keyword = txtSearch.getText();

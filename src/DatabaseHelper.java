@@ -120,7 +120,7 @@ public class DatabaseHelper {
     // Mencari obat berdasarkan nama atau kode
     public static List<Medicine> searchMedicine(String keyword) throws SQLException {
         List<Medicine> medicines = new ArrayList<>();
-        String sql = "SELECT * FROM data_obat WHERE nama_obat LIKE ? OR kode_obat LIKE ?";
+        String sql = "SELECT * FROM data_obat WHERE kode_obat LIKE ? OR merek LIKE ? ";
         try (Connection conn = koneksidb(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "%" + keyword + "%");
             pstmt.setString(2, "%" + keyword + "%");
