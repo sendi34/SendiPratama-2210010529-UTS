@@ -23,4 +23,5 @@ Tombol impor
 ![7  Tombol impor](https://github.com/user-attachments/assets/3101816c-e8dd-4972-a238-7257a3ec0dba)
 
 # KEUNGGULAN PROJECT
+Aplikasi ini memiliki antarmuka modern dan menarik dengan tema **FlatLaf**, memberikan pengalaman pengguna yang sederhana dan profesional. Validasi input memastikan hanya angka yang dapat dimasukkan untuk **Harga Beli** dan Harga Jual, mencegah kesalahan data. Fitur Log History mencatat tanggal dan waktu setiap aksi seperti tambah, ubah, atau hapus data, sehingga mempermudah pelacakan. Terhubung ke database **SQLite**, aplikasi ini ringan, portabel, dan cocok untuk pengelolaan data skala kecil hingga menengah. Selain itu, fitur pencarian, impor, dan ekspor data meningkatkan efisiensi penggunaannya.
 
